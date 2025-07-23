@@ -195,7 +195,8 @@ Ces ajouts donneraient une dimension analytique et prédictive au dashboard, en 
 
 ## 📸 Aperçu
 
-<img width="2501" height="1252" alt="image" src="https://github.com/user-attachments/assets/f3be3098-8e78-4a0f-971e-2f9f88b357df" />
+<img width="1512" height="864" alt="image" src="https://github.com/user-attachments/assets/84d96ee9-ea31-4f72-8a19-a23deeb27181" />
+
 
 ---
 
