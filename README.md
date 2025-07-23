@@ -89,13 +89,13 @@ Ouvre automatiquement une page Web avec le tableau de bord interactif.
 
 ## 📸 Aperçu
 
-![dashboard](https://via.placeholder.com/800x400.png?text=Dashboard+Twitch+Trends)
+<img width="2501" height="1252" alt="image" src="https://github.com/user-attachments/assets/f3be3098-8e78-4a0f-971e-2f9f88b357df" />
 
 ---
 
 ## 👨‍💻 Auteurs
 
-Made by **Hicham, Aya et Boubaker** 🔥
+Made by **Hicham, Aya et Boubaker** 
 
 ---
 
