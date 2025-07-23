@@ -43,7 +43,17 @@ class TwitchDashboard:
     def __init__(self):
         """Initialise le dashboard."""
         self.setup_page_config()
-        logger.info("🎮 Dashboard Twitch initialisé")
+        # Force refresh avec timestamp
+        from datetime import datetime
+        current_time = datetime.now().strftime("%H:%M:%S")
+        logger.info(f"🎮 Dashboard Twitch initialisé à {current_time}")
+        
+        # Clear cache Streamlit
+        try:
+            if hasattr(st, 'cache_data'):
+                st.cache_data.clear()
+        except:
+            pass
     
     def setup_page_config(self):
         """Configure la page Streamlit."""
@@ -90,7 +100,9 @@ class TwitchDashboard:
             pd.DataFrame: Données des jeux
         """
         try:
-            logger.info("📊 Chargement des données depuis MongoDB")
+            from datetime import datetime
+            current_time = datetime.now().strftime("%H:%M:%S")
+            logger.info(f"📊 Chargement des données depuis MongoDB à {current_time}")
             
             if not db_manager.is_connected():
                 st.error("❌ Connexion à la base de données impossible")
@@ -98,13 +110,24 @@ class TwitchDashboard:
             
             # Récupération des données
             games_data = db_manager.get_all_games()
+            logger.info(f"🔍 Données brutes récupérées: {len(games_data)} jeux")
             
             if not games_data:
                 st.warning("⚠️ Aucune donnée trouvée dans la base")
                 return pd.DataFrame()
             
+            # Debug: affichage d'un sample
+            if games_data:
+                sample_game = games_data[0]
+                logger.info(f"🎮 Exemple de jeu: {sample_game.get('title', 'N/A')} - {sample_game.get('viewers', 0)} viewers")
+            
             # Conversion en DataFrame
             df = pd.DataFrame(games_data)
+            logger.info(f"📋 DataFrame créé avec {len(df)} lignes et colonnes: {list(df.columns)}")
+            
+            # Suppression de l'ObjectId MongoDB pour éviter les erreurs de sérialisation
+            if '_id' in df.columns:
+                df = df.drop('_id', axis=1)
             
             # Nettoyage et préparation des données
             if 'scraped_at' in df.columns:
@@ -112,6 +135,7 @@ class TwitchDashboard:
             
             if 'viewers' in df.columns:
                 df['viewers'] = pd.to_numeric(df['viewers'], errors='coerce').fillna(0)
+                logger.info(f"👥 Total viewers calculé: {df['viewers'].sum():,}")
             
             if 'change' in df.columns:
                 df['change'] = pd.to_numeric(df['change'], errors='coerce')
@@ -285,8 +309,8 @@ class TwitchDashboard:
             color='#9146ff',
             cornerRadiusTopLeft=3,
             cornerRadiusTopRight=3
-        ).add_selection(
-            alt.selection_single()
+        ).add_params(
+            alt.selection_point()
         ).encode(
             x=alt.X('viewers:Q', title='Nombre de Viewers'),
             y=alt.Y('title:N', sort='-x', title='Jeux'),
