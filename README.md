@@ -84,6 +84,20 @@ Ouvre automatiquement une page Web avec le tableau de bord interactif.
 * PyMongo
 
 ---
+## 🚀 Perspectives
+
+Voici quelques pistes d’amélioration pour enrichir ce projet :
+
+- 🧠 Génération automatique de résumé des tendances : un algorithme pourrait détecter les hausses/déclins les plus marquants et générer un court texte d’analyse.
+- 📈 Visualisation comparative multi-jeux : permettre la sélection de plusieurs jeux pour comparer leurs évolutions sur plusieurs jours.
+- 📊 Clustering comportemental : regrouper automatiquement les jeux ayant des dynamiques similaires (hausse lente, viralité soudaine...).
+- 🤖 Recommandation de jeux à streamer : proposer des jeux avec un bon ratio viewers/streamers pour aider à identifier des opportunités.
+- 🗃️ Archivage quotidien : historiser les scrapes au lieu d’écraser les données, pour suivre l’évolution réelle dans le temps.
+
+Ces ajouts donneraient une dimension analytique et prédictive au dashboard, en exploitant pleinement les données collectées.
+
+---
+
 
 ## 📸 Aperçu
 
