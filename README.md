@@ -39,8 +39,6 @@ Créer un fichier `.env` à la racine du projet :
 MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority
 ```
 
-> 💡 Tu peux aussi utiliser MongoDB localement : `mongodb://localhost:27017/`
-
 ---
 
 ### 4. Scraper les données
