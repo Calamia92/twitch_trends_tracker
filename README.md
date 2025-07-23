@@ -93,23 +93,9 @@ Ouvre automatiquement une page Web avec le tableau de bord interactif.
 
 ---
 
-## 👨‍💻 Auteur
+## 👨‍💻 Auteurs
 
-Projet réalisé dans un cadre pédagogique.
-Made by **@ton-pseudo** 🔥
-
-````
-
-### ✅ `requirements.txt`
-
-```txt
-streamlit
-selenium
-pymongo
-pandas
-altair
-python-dotenv
-````
+Made by **Hicham, Aya et Boubaker** 🔥
 
 ---
 
