@@ -71,26 +71,37 @@ class TwitchScraper:
     
     def _setup_driver(self) -> bool:
         """
-        Configure et initialise le driver Chrome.
+        Configure et initialise le driver Chrome en mode furtif.
         
         Returns:
             bool: True si le driver est configuré avec succès
         """
         try:
-            # Configuration des options Chrome
             options = Options()
             
-            # Options pour performance et stabilité
+            # Options pour mode furtif complet
             chrome_options = [
-                "--headless=new",
-                "--disable-gpu", 
                 "--no-sandbox",
                 "--disable-dev-shm-usage",
                 "--disable-web-security",
                 "--disable-features=VizDisplayCompositor",
+                "--disable-blink-features=AutomationControlled",
+                "--disable-extensions",
+                "--disable-plugins",
+                "--disable-images",  # Accélère le chargement
+                "--disable-javascript",  # On n'a besoin que du HTML
                 "--window-size=1920,1080",
-                f"--user-agent={config.scraping.USER_AGENT}"
+                "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
             ]
+            
+            # Préférences expérimentales anti-détection
+            options.add_experimental_option("excludeSwitches", ["enable-automation"])
+            options.add_experimental_option('useAutomationExtension', False)
+            options.add_experimental_option("prefs", {
+                "profile.default_content_setting_values.notifications": 2,
+                "profile.default_content_settings.popups": 0,
+                "profile.managed_default_content_settings.images": 2
+            })
             
             for option in chrome_options:
                 options.add_argument(option)
@@ -134,13 +145,26 @@ class TwitchScraper:
             logger.info(f"🌐 Navigation vers {config.scraping.TARGET_URL}")
             self.driver.get(config.scraping.TARGET_URL)
             
-            # Attente que la page soit complètement chargée
-            WebDriverWait(self.driver, config.scraping.ELEMENT_WAIT_TIMEOUT).until(
-                EC.presence_of_element_located((By.CLASS_NAME, "ri-name"))
-            )
+            # Attente plus longue et différents sélecteurs
+            selectors = [
+                "table tbody tr",
+                ".table tbody tr",
+                ".data-table tbody tr",
+                "[data-a-target='browse-game-card']"
+            ]
             
-            logger.info("✅ Page chargée avec succès")
-            return True
+            for selector in selectors:
+                try:
+                    WebDriverWait(self.driver, config.scraping.ELEMENT_WAIT_TIMEOUT).until(
+                        EC.presence_of_element_located((By.CSS_SELECTOR, selector))
+                    )
+                    logger.info(f"✅ Page chargée avec succès (sélecteur: {selector})")
+                    return True
+                except TimeoutException:
+                    continue
+            
+            logger.error("❌ Aucun sélecteur n'a fonctionné")
+            return False
             
         except TimeoutException:
             logger.error("❌ Timeout lors du chargement de la page")
@@ -274,14 +298,29 @@ class TwitchScraper:
         scraped_games = []
         
         try:
-            # Recherche de tous les éléments de jeu
-            game_rows = self.driver.find_elements(By.CSS_SELECTOR, ".data-table tbody tr")
+            # Essai de différents sélecteurs pour plus de robustesse
+            selectors = [
+                "table tr.table-row",  # Nouveau sélecteur plus générique
+                ".table-list tbody tr",  # Alternative 1
+                "tr[data-game-id]",    # Alternative 2 basée sur l'attribut
+                ".data-table tbody tr"  # Ancien sélecteur comme fallback
+            ]
+            
+            game_rows = []
+            successful_selector = None
+            
+            for selector in selectors:
+                game_rows = self.driver.find_elements(By.CSS_SELECTOR, selector)
+                if game_rows:
+                    successful_selector = selector
+                    logger.info(f"✅ Éléments trouvés avec le sélecteur: {selector}")
+                    break
             
             if not game_rows:
-                logger.warning("⚠️ Aucune ligne de jeu trouvée")
+                logger.warning("⚠️ Aucune ligne de jeu trouvée avec les sélecteurs disponibles")
                 return []
             
-            logger.info(f"🎮 {len(game_rows)} jeux détectés, traitement en cours...")
+            logger.info(f"🎮 {len(game_rows)} jeux détectés avec {successful_selector}, traitement en cours...")
             
             # Traitement de chaque jeu en temps réel
             for i, row in enumerate(game_rows, 1):

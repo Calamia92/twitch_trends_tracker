@@ -34,25 +34,25 @@ class DatabaseConfig:
 class ScrapingConfig:
     """Configuration du scraping web."""
     
-    # URL cible pour le scraping
+    # URL cible pour le scraping - Site plus accessible
     TARGET_URL = "https://twitchtracker.com/games"
     
-    # Timeouts Selenium (secondes)
-    PAGE_LOAD_TIMEOUT = 20
-    ELEMENT_WAIT_TIMEOUT = 15
+    # Timeouts Selenium optimisés
+    PAGE_LOAD_TIMEOUT = 45
+    ELEMENT_WAIT_TIMEOUT = 30
     
-    # Options de retry
-    MAX_RETRIES = 3
-    RETRY_DELAY = 2
+    # Options de retry augmentées
+    MAX_RETRIES = 5
+    RETRY_DELAY = 10
     
-    # Délai entre les requêtes (politesse)
-    REQUEST_DELAY = 1
+    # Délai entre les requêtes plus long
+    REQUEST_DELAY = 3
     
-    # User-Agent pour éviter la détection
+    # User-Agent Windows réaliste
     USER_AGENT = (
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/120.0.0.0 Safari/537.36"
+        "Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
     )
 
 
