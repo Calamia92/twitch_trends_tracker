@@ -6,82 +6,176 @@ Un projet complet pour **scraper les trend les plus streamés sur Twitch** via [
 
 ## 📦 Fonctionnalités
 
-- 🔍 Scraping automatique des trend les plus populaires sur Twitch
-- 💾 Stockage des données dans MongoDB
-- 📈 Dashboard Streamlit avec :
+- 🔍 **Scraping automatique** des trends les plus populaires sur Twitch
+- 💾 **Stockage en temps réel** dans MongoDB (chaque item traité immédiatement)
+- 📄 **Export automatique** vers CSV et JSON (conformité exigences)
+- 🛠️ **Pipeline de traitement** avec transformation et nettoyage des données
+- 🔧 **Gestion d'exceptions** complète pendant la navigation et collecte
+- 📈 **Dashboard Streamlit** avec :
   - Filtres dynamiques (dates, viewers, jeu)
   - Graphiques interactifs (Altair)
-  - Export CSV
+  - Export CSV intégré
   - Visualisation de la part de marché Twitch
+- 🤖 **Automatisation** avec scraping programmé
+- 🏗️ **Architecture modulaire** : scraper et backend indépendants
 
 ---
 
-## 🚀 Lancer le projet
+## 🚀 Installation et configuration
 
 ### 1. Cloner le dépôt
 
 ```bash
 git clone https://github.com/ton-pseudo/twitch-trends-tracker.git
 cd twitch-trends-tracker
-````
+```
 
-### 2. Installer les dépendances
+### 2. Configuration automatique (recommandé)
 
 ```bash
+python setup.py
+```
+
+Ce script va automatiquement :
+- ✅ Vérifier Python 3.8+
+- 📦 Installer les dépendances
+- 📝 Créer le fichier .env
+- 🔧 Configurer ChromeDriver
+- 🚀 Créer les scripts de lancement
+
+### 3. Configuration manuelle (alternative)
+
+```bash
+# Installer les dépendances
 pip install -r requirements.txt
+
+# Créer le fichier de configuration
+cp .env.example .env
+# Puis éditer .env avec vos paramètres MongoDB
 ```
 
-### 3. Configuration
+### 4. Configurer MongoDB
 
-Créer un fichier `.env` à la racine du projet :
-
+Éditez le fichier `.env` et remplacez :
 ```env
-MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority
 ```
 
 ---
 
-### 4. Scraper les données
+## 🎯 Utilisation
+
+### Méthode recommandée (architecture modulaire)
 
 ```bash
-python scraper.py
+# Lancer le scraper
+python run_scraper.py
+
+# Lancer le dashboard
+python run_dashboard.py
 ```
 
-Cela lance le navigateur en mode headless, récupère les données et les insère dans MongoDB.
-
----
-
-### 5. Lancer le dashboard Streamlit
+### Méthode alternative (modules directs)
 
 ```bash
-streamlit run dashboard.py
+# Scraper modulaire
+python -m src.scraper.twitch_scraper
+
+# Dashboard modulaire  
+streamlit run src/dashboard/streamlit_dashboard.py
 ```
 
-Ouvre automatiquement une page Web avec le tableau de bord interactif.
+### Autres fonctionnalités
+
+```bash
+# Automatisation (scraping continu)
+python auto_scraper.py
+
+# Dashboard simple alternatif
+streamlit run app.py
+
+# Démonstration du projet
+python demo.py
+```
 
 ---
 
-## 📁 Structure
+## 📁 Structure du projet
 
 ```
-├── scraper.py          # Scraping via Selenium
-├── dashboard.py        # Interface Streamlit
-├── .env                # Clé MongoDB (à créer)
-├── requirements.txt    # Dépendances Python
-├── README.md           # Ce fichier
+├── 📁 src/                    # Code source principal (architecture modulaire)
+│   ├── 📁 core/              # Composants centraux
+│   ├── 📁 scraper/           # Module de scraping
+│   │   └── twitch_scraper.py # 🕷️ Scraper principal refactorisé
+│   ├── 📁 dashboard/         # Module dashboard
+│   │   └── streamlit_dashboard.py # 📊 Dashboard interactif refactorisé
+│   ├── 📁 database/          # Gestion base de données
+│   │   └── mongodb_manager.py # 💾 Manager MongoDB avec gestion d'erreurs
+│   └── 📁 utils/             # Utilitaires
+│       ├── data_utils.py     # 🔧 Parsing et validation des données
+│       └── export_manager.py # � Gestion exports CSV/JSON
+├── 📁 config/                # Configuration centralisée
+│   └── settings.py           # ⚙️ Configuration globale du projet
+├── 📁 scripts/               # Scripts d'automatisation
+├── 📁 data/                  # Données exportées (CSV/JSON)
+├── 📁 docs/                  # Documentation
+├── 📁 logs/                  # Fichiers de log
+├── 📁 archive/               # Anciens fichiers (backup)
+├── run_scraper.py            # 🚀 Script de lancement scraper (PRINCIPAL)
+├── run_dashboard.py          # 🎮 Script de lancement dashboard (PRINCIPAL)
+├── app.py                    # 📱 Dashboard alternatif (simple)
+├── auto_scraper.py           # 🤖 Automatisation du scraping
+├── setup.py                  # ⚙️ Script de configuration automatique
+├── demo.py                   # 🎯 Script de démonstration
+├── .env.example              # 📝 Modèle de configuration
+├── .env                      # 🔐 Configuration (à créer)
+├── requirements.txt          # 📦 Dépendances Python
+└── README.md                 # 📖 Ce fichier
 ```
 
 ---
 
-## 🛠️ Dépendances
+## ✅ Conformité avec les exigences du TP
 
-* Python 3.8+
-* Selenium
-* Streamlit
-* Pandas
-* Altair
-* Python-dotenv
-* PyMongo
+### 📚 **Documentation**
+- ✅ README.md complet avec description et instructions
+- ✅ Liste des membres : **Hicham, Aya et Boubaker**
+- ✅ Instructions d'exécution détaillées pour chaque composant
+
+### 🔧 **Framework autorisé**
+- ✅ **Selenium** (framework autorisé par le sujet)
+
+### 📝 **Scraper conforme**
+- ✅ **Source multiple** : TwitchTracker.com + possibilité d'extensions
+- ✅ **Gestion d'exceptions** : TimeoutException, NoSuchElementException, erreurs réseau
+- ✅ **Export CSV et JSON** : fichiers automatiquement générés à chaque scraping
+- ✅ **Injection base de données** : MongoDB avec sauvegarde automatique
+- ✅ **Pipeline de traitement** : fonctions dédiées pour transformation et nettoyage
+- ✅ **Traitement temps réel** : chaque item immédiatement traité et sauvegardé
+
+### 🏗️ **Architecture**
+- ✅ **Architecture modulaire** : Code organisé en modules logiques dans `src/`
+- ✅ **Séparation des responsabilités** : Scraping, database, dashboard, utils séparés
+- ✅ **Configuration centralisée** : Toutes les configurations dans `config/settings.py`
+- ✅ **Gestion d'erreurs robuste** : Logging et gestion d'exceptions complète
+- ✅ **Scraper indépendant** : `src/scraper/twitch_scraper.py` exécutable séparément
+- ✅ **Backend indépendant** : `src/dashboard/streamlit_dashboard.py` peut fonctionner sans le scraper
+- ✅ **Données en base** : toutes les données injectées par le scraper
+- ✅ **Exécution séparée** : composants peuvent être lancés indépendamment
+
+---
+
+## 🛠️ Technologies utilisées
+
+* **Python 3.8+** - Langage principal
+* **Selenium + ChromeDriver** - Web scraping avec gestion automatique
+* **Streamlit** - Dashboard interactif et responsive
+* **MongoDB + PyMongo** - Base de données NoSQL
+* **Pandas** - Manipulation des données
+* **Altair** - Visualisations interactives
+* **Python-dotenv** - Gestion de la configuration
+* **Schedule** - Automatisation des tâches
+* **WebDriver-Manager** - Gestion automatique de ChromeDriver
 
 ---
 ## 🚀 Perspectives
