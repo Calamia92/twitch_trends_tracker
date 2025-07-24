@@ -36,7 +36,11 @@ from selenium.common.exceptions import (
 )
 from webdriver_manager.chrome import ChromeDriverManager
 
-from config.settings import config
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from src.config.config import config
 from src.database.mongodb_manager import db_manager
 from src.utils.data_utils import parser, validator
 from src.utils.export_manager import ExportManager

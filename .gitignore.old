@@ -1,0 +1,31 @@
+# Environnements Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+
+# Environnement virtuel
+.venv/
+env/
+venv/
+
+# Fichier de configuration personnel
+.env
+
+# Cache de Streamlit
+.streamlit/
+
+# Jupyter Notebooks (optionnel)
+.ipynb_checkpoints/
+
+# Fichiers temporaires
+*.log
+*.tmp
+*.bak
+
+
+.idea
+.env

@@ -1,22 +1,38 @@
-# Dashboard et visualisation
+# ===== CORE DEPENDENCIES =====
+# Dashboard et interface utilisateur
 streamlit>=1.28.0
-altair>=5.0.0
+plotly>=5.15.0
 pandas>=2.0.0
 
-# Base de données
+# Base de données MongoDB
 pymongo>=4.3.0
 
-# Configuration
-python-dotenv>=1.0.0
-
-# Web scraping
+# Web scraping et automatisation
 selenium>=4.15.0
 webdriver-manager>=4.0.0
+beautifulsoup4>=4.12.0
+requests>=2.31.0
 
-# Automatisation
+# Configuration et environnement
+python-dotenv>=1.0.0
+
+# ===== UTILITIES =====
+# Gestion de dates et temps
 schedule>=1.2.0
 
-# Utilitaires optionnels
-plotly>=5.15.0  # Alternative à Altair
-requests>=2.31.0  # Pour des requêtes HTTP si nécessaire
-click>=8.1.0  # Pour des CLI avancées
+# Logging avancé (optionnel)
+colorlog>=6.7.0
+
+# ===== DEVELOPMENT DEPENDENCIES =====
+# Tests (pour développement)
+# pytest>=7.4.0
+# pytest-cov>=4.1.0
+
+# Code quality (pour développement)
+# black>=23.0.0
+# flake8>=6.0.0
+# mypy>=1.5.0
+
+# Documentation (pour développement)
+# sphinx>=7.1.0
+# sphinx-rtd-theme>=1.3.0

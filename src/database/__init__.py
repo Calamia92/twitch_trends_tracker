@@ -1,9 +1,10 @@
 """
-Module de gestion de base de données.
+Package de gestion de la base de données.
 
-Contient les managers et utilitaires pour MongoDB.
+Ce package contient tous les modules nécessaires pour gérer
+les opérations de base de données MongoDB.
 """
 
-from .mongodb_manager import DatabaseManager, db_manager
+from .mongodb_manager import MongoDBManager, db_manager
 
-__all__ = ['DatabaseManager', 'db_manager']
+__all__ = ['MongoDBManager', 'db_manager']
